@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact | SkinAI</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+  body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#89f7fe,#66a6ff);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#333;
+  }
+
+  .navbar{
+    width:100%;
+    max-width:1200px;
+    background:white;
+    padding:15px 30px;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(31,38,135,.1);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+  }
+  .navbar h2{font-size:26px;color:#1b3b6f;font-weight:700;}
+  .nav-links a{
+    margin-left:25px;text-decoration:none;font-weight:600;color:#1b3b6f;transition:.3s;
+  }
+  .nav-links a:hover{color:#2f7fff;}
+
+  .page-container{
+    width:100%;
+    max-width:1150px;
+    background:white;
+    padding:40px;
+    border-radius:22px;
+    box-shadow:0 8px 32px rgba(31,38,135,.15);
+    animation:fadeIn 1s;
+  }
+
+  h1{text-align:center;color:#1b3b6f;font-size:34px;}
+  .sub{text-align:center;margin-top:4px;color:#333;font-size:15px;}
+
+  .grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+    margin-top:30px;
+  }
+
+  .box{
+    flex:1 1 30%;
+    background:#f6faff;
+    padding:20px;
+    border-radius:14px;
+    border:1px solid #ddeaff;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+    font-size:14px;
+  }
+
+  .box h3{color:#1b3b6f;margin-bottom:10px;}
+
+  .team .card{
+    background:#f8fbff;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #d0e5ff;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    text-align:center;
+    flex:1 1 30%;
+    transition:.3s;
+  }
+  .team .card:hover{transform:translateY(-6px);}
+  .profile{
+    width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #1b3b6f;margin-bottom:10px;
+  }
+
+  .contact-form{
+    margin-top:40px;
+    background:#f8fbff;
+    padding:25px;
+    border-radius:14px;
+    border:1px solid #dce9ff;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+  }
+  input,textarea,select{
+    width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #aaa;outline:none;
+  }
+  button{
+    background:#1b3b6f;color:white;border:none;padding:12px 24px;border-radius:8px;
+    cursor:pointer;transition:.3s;font-weight:600;
+  }
+  button:hover{transform:scale(1.05);background:#133866;}
+
+  /* Professional Certification Section */
+  .cert-section{
+    background:#eef5ff;
+    margin-top:40px;
+    padding:25px;
+    border-radius:14px;
+    border:1px solid #d2e6ff;
+    box-shadow:0 4px 14px rgba(0,0,0,.05);
+  }
+  .cert-box{
+    display:flex;flex-wrap:wrap;gap:20px;margin-top:15px;
+  }
+  .cert{
+    flex:1 1 30%;
+    background:white;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #d6e7ff;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+    text-align:center;font-size:14px;
+  }
+
+  /* Partner Logos Section */
+  .partner-section{
+    margin-top:40px;
+    background:#f6faff;
+    padding:25px;
+    border-radius:14px;
+    border:1px solid #d7e9ff;
+    text-align:center;
+  }
+  .partners{
+    display:flex;gap:25px;flex-wrap:wrap;margin-top:20px;justify-content:center;
+  }
+  .partner{
+    background:white;padding:12px 18px;border-radius:10px;border:1px solid #e0eaff;
+    box-shadow:0 3px 10px rgba(0,0,0,.05);font-size:14px;
+  }
+
+  .badges{
+    display:flex;justify-content:center;gap:12px;margin-top:35px;flex-wrap:wrap;
+  }
+  .badge{
+    background:#e8f2ff;padding:9px 15px;border-radius:10px;font-size:12px;border:1px solid #cadeff;
+  }
+
+  .faq{
+    background:#f6faff;padding:25px;border-radius:14px;border:1px solid #d7e9ff;margin-top:40px;
+  }
+  .faq p{margin:6px 0;font-size:14px;}
+
+  .footer{
+    width:100%;text-align:center;margin-top:40px;padding:15px;background:white;border-radius:12px;
+    box-shadow:0 4px 18px rgba(31,38,135,.12);color:#1b3b6f;font-weight:500;
+  }
+
+  @media(max-width:768px){
+    .box,.team .card,.cert{flex:1 1 100%;}
+    .navbar{flex-direction:column;gap:10px;}
+  }
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <h2>SkinAI</h2>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/consult">Consult</a>
+    <a href="/contact">Contact</a>
+  </div>
+</div>
+
+<div class="page-container">
+
+
+<h1>Contact & Corporate Directory</h1>
+<div class="sub">Verified communication channels & department routing</div>
+
+<div class="grid">
+  <div class="box">
+    <h3>Registered Office</h3>
+    SkinAI Healthcare Pvt Ltd.<br>
+    Sector 62, Noida (UP) – 201301<br>
+    India
+  </div>
+  <div class="box">
+    <h3>Official Emails</h3>
+    support@skinai.com<br>
+    security@skinai.com<br>
+    careers@skinai.com
+  </div>
+  <div class="box">
+    <h3>Legal & Compliance</h3>
+    GDPR Supported<br>
+    Encrypted Data<br>
+    Quarterly Audits
+  </div>
+</div>
+
+<div class="contact-form">
+  <h3>Submit Request</h3>
+  <select>
+    <option>General Inquiry</option>
+    <option>Doctor Collaboration</option>
+    <option>Billing & Refund</option>
+    <option>Medical Record Concern</option>
+    <option>Bug / Technical Issue</option>
+  </select>
+  <input type="text" placeholder="Full Name">
+  <input type="email" placeholder="Email Address">
+  <textarea rows="4" placeholder="Describe your request"></textarea>
+  <button>Send Request</button>
+</div>
+
+<h2 style="margin-top:45px;color:#1b3b6f;text-align:center;">Core Team</h2>
+<div class="grid team">
+  <div class="card">
+    <img src="{{ url_for('static', filename='profiles/prof.jpg') }}" class="profile">
+    <h3>Dr. Umer Ashraff</h3>
+     Professor ECE dept. & Project Supervisor
+  </div>
+  <div class="card">
+    <img src="{{ url_for('static', filename='profiles/prof.jpg') }}" class="profile">
+    <h3>Atul Pal  </h3>
+    Machine Learning & AI Lead
+  </div>
+  <div class="card">
+    <img src="{{ url_for('static', filename='profiles/team.jpg') }}" class="profile">
+    <h3>Atul Pal,Samvit, Hardik and Abhinav</h3>
+    Research & Development
+  </div>
+</div>
+
+<!-- ✅ New Certification Section -->
+<div class="cert-section">
+  <h3>Professional Certifications & Licensing</h3>
+  <div class="cert-box">
+    <div class="cert">✔ NABH Guidelines Inspired</div>
+    <div class="cert">✔ Board Certified Dermatologists</div>
+    <div class="cert">✔ Medical Data Compliance Ready</div>
+  </div>
+</div>
+
+
+<div class="faq">
+  <h2>FAQ</h2>
+
+  <p><b>Is SkinAI a replacement for a doctor?</b><br>
+  No. Our platform assists diagnosis; certified dermatologists verify results.</p>
+
+  <p><b>Where is my medical data stored?</b><br>
+  On encrypted, private cloud servers inside India with controlled access.</p>
+
+  <p><b>Can I get a follow-up consultation?</b><br>
+  Yes, follow-ups can be booked at a reduced fee if within 14 days.</p>
+
+  <p><b>Are doctors on SkinAI board certified?</b><br>
+  Yes, all dermatologists are verified through medical council certificates.</p>
+
+  <p><b>Can I export my reports?</b><br>
+  Yes, PDF reports can be downloaded from your patient portal.</p>
+
+  <p><b>Do you accept insurance claims?</b><br>
+  Not currently, but insurance integration is under processing.</p>
+
+  <p><b>How long does a typical consultation take?</b><br>
+  8–15 minutes, depending on condition complexity.</p>
+
+  <p><b>Can minors book consultations?</b><br>
+  Only with guardian approval. Consent is required for 16 and below.</p>
+
+  <p><b>Can international users access SkinAI?</b><br>
+  Yes, but prescriptions follow Indian telemedicine guidelines.</p>
+
+  <p><b>How do refunds work?</b><br>
+  Full refund if unused within 24 hours or unresolved technical failures.</p>
+
+  <p><b>Are prescriptions legally valid?</b><br>
+  All prescriptions follow Telemedicine Practice Guidelines of India.</p>
+
+  <p><b>Do doctors see my previous scan history?</b><br>
+  Yes, only with your explicit consent to improve treatment accuracy.</p>
+
+  <p><b>Do you share my data with third parties?</b><br>
+  Strict no. We do not sell, rent or disclose data to advertisers.</p>
+
+  <p><b>What if my skin issue worsens rapidly?</b><br>
+  Visit your nearest emergency clinic immediately. Online care is not for emergencies.</p>
+
+</div>
+
+
+</div>
+
+<div class="footer">
+  Terms | Privacy | Compliance | Careers<br>
+  © 2025 SkinAI — Dermatology Intelligence Platform
+</div>
+
+</body>
+</html>

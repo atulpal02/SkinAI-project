@@ -1,0 +1,13 @@
+
+export DATABASE_URL="mysql+pymysql://root:password@localhost:3306/skinai"
+
+
+export MAIL_SERVER="smtp.gmail.com"
+export MAIL_PORT=587
+export MAIL_USE_TLS=true
+export MAIL_USERNAME="atul07pal@gmail.com"
+export MAIL_PASSWORD="Atulpal@2005"
+export MAIL_DEFAULT_SENDER=""atul07pal@gmail.com"
+export ADMIN_EMAIL="atul07pal@gmail.com"
+
+export SECRET_KEY="mysecretkey"

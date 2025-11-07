@@ -1,0 +1,15 @@
+Flask==2.2.5
+Werkzeug==2.2.3
+numpy==1.23.5
+pillow==10.1.0
+pandas==1.5.3
+scikit-learn==1.2.2
+tensorflow-macos==2.12.0
+tensorflow-metal==1.0.0
+
+
+# running commands
+# python3 -m venv env
+# pip install -r requirements.txt
+# source env/bin/activate
+# python app.py

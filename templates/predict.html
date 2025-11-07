@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Consultation | SkinAI</title>
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+  body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#89f7fe,#66a6ff);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#333;
+  }
+
+  .navbar{
+    width:100%;
+    max-width:1200px;
+    background:white;
+    backdrop-filter:blur(10px);
+    padding:15px 30px;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(31,38,135,.12);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+  }
+
+  .navbar h2{color:#1b3b6f;font-size:26px;font-weight:700;}
+
+  .nav-links a{
+    margin-left:25px;
+    text-decoration:none;
+    color:#1b3b6f;
+    font-weight:600;
+    transition:.3s;
+  }
+
+  .nav-links a:hover{
+    color:#2d7dff;
+  }
+
+  .container{
+    width:100%;
+    max-width:1100px;
+    background:white;
+    backdrop-filter:blur(15px);
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 8px 32px rgba(31,38,135,.12);
+  }
+
+  h1{text-align:center;color:#1b3b6f;font-size:34px;}
+
+  .subtext{
+    text-align:center;
+    font-size:15px;
+    margin-top:10px;
+    color:#333;
+  }
+
+  /* Plans */
+  .cards{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-top:35px;
+  }
+
+  .card{
+    flex:1 1 30%;
+    background:#f8fbff;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 4px 16px rgba(0,0,0,.09);
+    border:1px solid #e2ecff;
+    text-align:center;
+    transition:.3s;
+  }
+
+  .card:hover{
+    transform:translateY(-6px);
+  }
+
+  .card h3{color:#1b3b6f;margin-bottom:10px;}
+  .price{font-size:28px;font-weight:800;color:#2c5dc1;margin-top:8px;}
+  .card ul{margin-top:12px;margin-left:18px;text-align:left;font-size:14px;}
+  .btn{
+    background:#1b3b6f;
+    padding:10px 22px;
+    border-radius:10px;
+    color:white;
+    text-decoration:none;
+    display:inline-block;
+    margin-top:15px;
+    transition:.3s;
+  }
+
+  .btn:hover{transform:scale(1.05);background:#133866;}
+
+  /* Add-on sections */
+  .section{
+    margin-top:45px;
+    padding:25px;
+    border-radius:14px;
+    background:#f7faff;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+    border:1px solid #e2edff;
+  }
+
+  .section h2{color:#1b3b6f;margin-bottom:10px;text-align:center;}
+
+  .grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-top:20px;
+  }
+
+  .feature{
+    flex:1 1 45%;
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 3px 14px rgba(0,0,0,.07);
+    border:1px solid #e2efff;
+    font-size:14px;
+  }
+
+  /* Doctors */
+  .doctors{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:25px;
+  }
+
+  .doctor{
+    flex:1 1 30%;
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    text-align:center;
+    border:1px solid #e2efff;
+    box-shadow:0 4px 14px rgba(0,0,0,.07);
+  }
+
+  .doctor img{
+    width:90px;height:90px;
+    border-radius:50%;
+    border:3px solid #1b3b6f;
+    margin-bottom:10px;
+  }
+
+  .badge-container{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+  }
+
+  .badge{
+    background:#e4f0ff;
+    padding:8px 15px;
+    border-radius:10px;
+    font-size:13px;
+    border:1px solid #cfe2ff;
+  }
+
+  /* Testimonials */
+  .testimonials{
+    margin-top:30px;
+  }
+
+  .review{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #e2ecff;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+    margin-bottom:12px;
+  }
+
+  /* Footer */
+  .footer{
+    width:100%;
+    text-align:center;
+    margin-top:30px;
+    padding:14px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(31,38,135,.12);
+    color:#1b3b6f;
+    font-weight:600;
+  }
+
+  @media(max-width:768px){
+    .card,.doctor,.feature{flex:1 1 100%;}
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="navbar">
+  <h2>SkinAI</h2>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/consult">Consult</a>
+    <a href="/contact">Contact</a>
+  </div>
+</div>
+
+<div class="container">
+
+<h1>Dermatology Consultation Hub</h1>
+<div class="subtext">Book certified dermatologist sessions, chat instantly, and get verified treatment plans</div>
+
+<!-- Pricing cards -->
+<div class="cards">
+  <div class="card">
+    <h3>Chat Support</h3>
+    <p>Skin expert via chat</p>
+    <div class="price">₹199</div>
+    <ul>
+      <li>Instant messaging</li>
+      <li>Image reviews</li>
+      <li>Short prescriptions</li>
+    </ul>
+    <a href="#" class="btn">Book Whatsapp Chat</a>
+  </div>
+
+  <div class="card">
+    <h3>Video Appointment</h3>
+    <p>One-on-one doctor call</p>
+    <div class="price">₹499</div>
+    <ul>
+      <li>Live skin diagnosis</li>
+      <li>Treatment plan</li>
+      <li>Follow-up report</li>
+    </ul>
+    <a href="#" class="btn">Book Video Call</a>
+  </div>
+
+  <div class="card">
+    <h3>Physical Appointment</h3>
+    <p>Tracked improvement</p>
+    <div class="price">₹999</div>
+    <ul>
+      <li>Personal prescription</li>
+      <li>Weekly follow-ups</li>
+      <li>Diet + routine chart</li>
+    </ul>
+    <a href="#" class="btn">Book Appointment</a>
+  </div>
+</div>
+<!-- Trust Qualities -->
+<div class="section" style="margin-top:50px;">
+  <h2 style="text-align:center; color:#1b3b6f; font-size:30px; font-weight:700;">
+    Why Patients Trust SkinAI
+  </h2>
+  <p style="text-align:center; font-size:15px; margin-top:5px;">
+    Built on clinical accuracy, privacy, and patient-first healthcare ethics
+  </p>
+
+  <div class="grid" style="margin-top:25px;">
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Clinical Accuracy</b><br>
+      Our AI model is trained on globally recognized dermatology datasets to ensure trustworthy predictions.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Board-Verified Expertise</b><br>
+      All diagnoses and prescriptions are reviewed by certified dermatologists before delivery.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Data Confidentiality</b><br>
+      Patient information is encrypted and never shared with third-party advertisers or partners.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Medical Transparency</b><br>
+      Every prediction includes explanations, risk indicators, and recommended follow-up actions.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Continuous Monitoring</b><br>
+      Long-term tracking helps detect visual changes early, reducing complication risks.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Ethical AI Standards</b><br>
+      SkinAI follows fair-use guidelines, clinical bias reduction, and responsible reporting practices.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>24/7 Global Availability</b><br>
+      Consult from anywhere, anytime, without waiting for clinic schedules.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Time-Saving Diagnosis</b><br>
+      Early screening reduces delays, helping patients start treatment immediately.
+    </div>
+
+    <div class="feature" style="background:white; padding:20px; border-radius:12px; border:1px solid #dce6ff; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+      <b>Patient-First Philosophy</b><br>
+      Our platform emphasizes empathy, clarity, and safety in every interaction.
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Doctors -->
+<div class="section">
+  <h2>Board Certified Dermatologists</h2>
+  <div class="doctors">
+    <div class="doctor">
+      
+    <img src="{{ url_for('static', filename='profiles/atul.jpg') }}" class="doctor">
+      
+      <h4>Dr. Neha Sharma</h4>
+      <small>10+ yrs exp, Acne & Pigment Specialist</small>
+    </div>
+    <div class="doctor">
+    <img src="{{ url_for('static', filename='profiles/atul.jpg') }}" class="doctor">
+      <h4>Dr. Aarav Mahesh</h4>
+      <small>Skin Surgery, Mole mapping Expert</small>
+    </div>
+    <div class="doctor">
+      <div class="doctor">
+       <img src="{{ url_for('static', filename='profiles/atul.jpg') }}" class="doctor">
+      <h4>Dr. Priya Kulkarni</h4>
+      
+      <small>Cosmetic Dermatology & Anti-Aging</small>
+    </div>
+  </div>
+</div>
+
+<!-- Trust Badges -->
+<div class="badge-container">
+  <div class="badge"> GDPR Compliant</div>
+  <div class="badge"> Encrypted Reports</div>
+  <div class="badge"> Dermatologist Verified</div>
+</div>
+
+<!-- Testimonials -->
+<div class="section testimonials">
+  <h2>What Patients Say</h2>
+
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ — "My acne improved in 3 weeks, great structured guidance!"</div>
+  <div class="review">⭐️⭐️⭐️⭐️ — "Video consultation felt like real clinic experience."</div>
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ — "Weekly follow-ups helped me stay consistent."</div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+© 2025 SkinAI — Professional Dermatology Assistance
+</div>
+
+</body>
+</html>
+        

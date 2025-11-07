@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Disease Prediction Result</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6dd5fa, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 500px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #1b3b6f;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .severity {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .low { background-color: #4caf50; }
+    .moderate { background-color: #ff9800; }
+    .severe { background-color: #f44336; }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1b3b6f;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #16305d;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="{{ url_for('static', filename=image_file) }}" alt="Uploaded Image">
+
+    <p><strong>It is probable that you may have:</strong></p>
+
+    <h2>{{ info.name }}</h2>
+
+    <!-- ✅ Show Probability -->
+    <p><strong>Model Confidence:</strong> {{ "%.2f" | format(confidence) }}%</p>
+
+    <!-- ✅ Conditional low-probability rule -->
+    {% if confidence < 50 %}
+      <p style="color:#ff9800; font-weight:bold;">
+        It may be a common skin infection. Try basic antibiotics or topical medication.
+        If symptoms persist more than a week, consult a dermatologist.
+      </p>
+    {% endif %}
+
+    <p><strong>Symptoms:</strong> {{ info.symptoms }}</p>
+
+    <div class="severity 
+      {% if 'Severe' in info.seriousness %}severe
+      {% elif 'Moderate' in info.seriousness %}moderate
+      {% else %}low{% endif %}">
+      {{ info.seriousness }}
+    </div>
+
+    <a href="/" class="back-btn">🔙 Return to Home </a>
+  </div>
+</body>
+</html>
+
+
+<!-- This is a comment <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Disease Prediction Result</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6dd5fa, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 500px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #1b3b6f;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .severity {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .low { background-color: #4caf50; }
+    .moderate { background-color: #ff9800; }
+    .severe { background-color: #f44336; }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1b3b6f;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #16305d;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="{{ url_for('static', filename=image_file) }}" alt="Uploaded Image">
+
+ 
+    <p><strong>It is probable that you may have:</strong></p>
+
+    <h2>{{ info.name }}</h2>
+    <p><strong>Symptoms:</strong> {{ info.symptoms }}</p>
+
+    <div class="severity 
+      {% if 'Severe' in info.seriousness %}severe
+      {% elif 'Moderate' in info.seriousness %}moderate
+      {% else %}low{% endif %}">
+      {{ info.seriousness }}
+    </div>
+
+    <a href="/" class="back-btn">🔙 Try Another Image</a>
+  </div>
+</body>
+</html> --> 

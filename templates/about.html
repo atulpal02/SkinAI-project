@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About | SkinAI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f1f7ff;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+
+    .navbar {
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      animation: fadeIn 0.8s;
+      border: 1px solid #d6e7ff;
+    }
+
+    .navbar h2 {
+      font-size: 26px;
+      color: #0c2b4a;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #0c2b4a;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #2d74ff;
+    }
+
+    .banner {
+      width: 100%;
+      max-width: 1200px;
+      height: 300px;
+      border-radius: 18px;
+      margin-bottom: 35px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner h1 {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+      font-size: 38px;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 1100px;
+      background: white;
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+      animation: fadeIn 1s;
+      border: 1px solid #e3eeff;
+    }
+
+    h2.section-title {
+      margin-top: 30px;
+      color: #0c2b4a;
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 28px;
+    }
+
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .card {
+      flex: 1 1 30%;
+      background: #f8fbff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      transition: transform .3s ease;
+      border: 1px solid #e5efff;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card h3 {
+      color: #0c2b4a;
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+      padding: 15px;
+      background: white;
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(31, 38, 135, 0.2);
+      font-weight: 500;
+      color: #0c2b4a;
+      border: 1px solid #dce9ff;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        flex: 1 1 100%;
+      }
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Header -->
+  <div class="navbar">
+    <h2>SkinAI</h2>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/consult">Consult</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- ✅ Top Banner -->
+  <div class="banner" style="background-image:url('https://images.unsplash.com/photo-1588778847719-979b1e9c1bb4?auto=format&w=1200');">
+    <h1>Advanced AI Dermatology</h1>
+  </div>
+
+  <!-- ✅ Content -->
+  <div class="page-container about-container">
+  <h1 class="title">About SkinAI</h1>
+  <p class="subtitle">
+    SkinAI uses deep learning to assist with early detection of dermatological diseases.
+    Early diagnosis can prevent complications and save lives.
+  </p>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Why Skin Health Matters</h3>
+      <p>
+        Over 4 million people globally are diagnosed with skin cancer each year.
+        Early recognition drastically improves recovery success.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>How It Works</h3>
+      <p>
+        Upload an image of the lesion. Our AI analyzes texture patterns, border sharpness,
+        color distribution & asymmetry.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Dataset Used</h3>
+      <p>
+        Trained on the HAM10000 dataset containing expert-labeled dermatoscopic images.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Accuracy</h3>
+      <p>
+        Deep CNN classifiers can reach dermatologist-level accuracy when trained properly.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>AI Probability Scoring</h3>
+      <p>
+        Results include confidence scores indicating the likelihood of each disease category.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Disclaimer</h3>
+      <p>
+        This tool is not a substitute for medical visits. Always consult a certified dermatologist.
+      </p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Skin Health & Treatment Articles</h2>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Preventing Acne</h3>
+      <p>
+        Use non-comedogenic products, avoid excessive scrubbing, and maintain hydration.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Melanoma Warning Signs</h3>
+      <p>
+        Follow the ABCDE rule: Asymmetry, Borders, Color variation, Diameter & Evolution.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Psoriasis Care</h3>
+      <p>
+        Moisturizers, phototherapy, and biologics provide relief. Avoid triggers.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Eczema Treatment</h3>
+      <p>
+        Barrier creams + steroid therapy help reduce inflammation. Avoid harsh soaps.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Sun Protection</h3>
+      <p>
+        Use SPF 50+, reapply every 2 hours. UV exposure increases cancer risk.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Healthy Skin Diet</h3>
+      <p>
+        Antioxidants, omega-3 and hydration improve elasticity & healing.
+      </p>
+    </div>
+  </div>
+</div>
+
+  <!-- ✅ Bottom Banner -->
+  <div class="banner" style="background-image:url('https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&w=1200');margin-top:40px;">
+    <h1>Scan • Detect • Prevent</h1>
+  </div>
+
+  <!-- ✅ Footer -->
+  <div class="footer">
+    © 2025 SkinAI • Early Detection Saves Lives
+  </div>
+
+</body>
+</html>

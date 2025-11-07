@@ -1,0 +1,7 @@
+skinai_env/
+*.h5
+*.pt
+*.pkl
+*.ckpt
+__pycache__/
+.DS_Store

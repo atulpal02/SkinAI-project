@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Skin Disease Detector</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f2f8ff;
+      color: #2a2a2a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    /* ✅ NavBar */
+    .navbar {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      padding: 18px 40px;
+      border-radius: 14px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border: 1px solid #e1edff;
+    }
+
+    .navbar h2 {
+      font-size: 26px;
+      color: #0a315a;
+      font-weight: 800;
+    }
+
+    .nav-links a {
+      margin-left: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #0a315a;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #247cff;
+    }
+
+    /* ✅ Hero Banner Section */
+    .hero {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 50px;
+      background: linear-gradient(135deg, #5ea2ff, #8ee4ff);
+      padding: 50px;
+      border-radius: 25px;
+      display: flex;
+      justify-content: space-between;
+      color: #fff;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      width: 50%;
+      padding-right: 20px;
+    }
+
+    .hero-text h1 {
+      font-size: 44px;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero-text p {
+      line-height: 1.7;
+      font-size: 18px;
+    }
+
+    .hero-img {
+      width: 45%;
+      border-radius: 20px;
+    }
+
+    /* ✅ Main Container */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 22px;
+      padding: 50px;
+      margin-top: 40px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      border: 1px solid #e8efff;
+    }
+
+    .info {
+      flex: 1 1 55%;
+    }
+
+    .info h2 {
+      color: #0a315a;
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .info p {
+      line-height: 1.6;
+      font-size: 17px;
+      margin-bottom: 20px;
+    }
+
+    .upload-card {
+      flex: 1 1 40%;
+      background: #f7faff;
+      border-radius: 18px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .upload-box {
+      border: 2px dashed #0a315a;
+      padding: 25px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      background: #ffffffa1;
+    }
+
+    .preview-img {
+      margin-top: 18px;
+      width: 100%;
+      max-width: 240px;
+      border-radius: 14px;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    }
+
+    button {
+      background-color: #0a315a;
+      color: white;
+      border-radius: 10px;
+      padding: 13px 32px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.25s;
+      border: none;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #06284a;
+    }
+
+    #result {
+      margin-top: 18px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #122;
+    }
+
+    /* ✅ Trusted Badges */
+    .badges {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .badge {
+      background: #e7f0ff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      border: 1px solid #d2e4ff;
+    }
+
+    /* ✅ Popular Conditions */
+    .conditions {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 40px;
+    }
+
+    .conditions h3 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #0a315a;
+    }
+
+    .grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .condition-card {
+      flex: 1 1 calc(33% - 20px);
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+      border: 1px solid #e8efff;
+      transition: .3s;
+    }
+
+    .condition-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* ✅ Footer */
+    footer {
+      margin-top: 60px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 1200px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+      text-align: center;
+      border: 1px solid #e5eaff;
+    }
+
+    @media(max-width: 860px) {
+      .hero-text, .hero-img { width: 100%; }
+      .condition-card { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Navbar -->
+  <div class="navbar">
+    <h2>SkinAI</h2>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/consult">Consult</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- ✅ Hero Banner -->
+ <div class="hero">
+  <div class="hero-text">
+    <h1>Proactive Diagnosis, Preventive Care..</h1>
+    <p>
+      
+    </p>
+    <a href="/consult" class="hero-btn">Try Now — It’s Free</a>
+  </div>
+
+  <img src="{{ url_for('static', filename='doctor_banner.png') }}"
+       class="hero-img" alt="Dermatology AI">
+</div>
+
+
+  <!-- ✅ Main Container -->
+  <div class="container">
+    <div class="info">
+      <h2>Perform Skin Risk Assessment</h2>
+      <p>
+         SkinAI analyzes your skin image in seconds to detect visible abnormalities, estimate risk levels, and help you understand potential dermatological conditions early. Upload a photo to check your skin health now.
+      </p>
+     
+    </div>
+
+    <!-- ✅ Upload Box -->
+    <div class="upload-card">
+      <form id="uploadForm" action="/predict" method="POST" enctype="multipart/form-data">
+        <label class="upload box">
+          <p> Click or Drag an image here</p>
+          <input type="file" name="image" id="imageInput" accept="image/*" required>
+        </label>
+
+        <img id="preview" class="preview-img">
+
+        <button type="submit"> Predict Disease</button>
+      </form>
+      <div id="result">{{ prediction_text }}</div>
+    </div>
+  </div>
+
+  <!-- ✅ Security Badges -->
+  <div class="badges">
+    <div class="badge"> HIPAA Privacy Safe</div>
+    <div class="badge"> Dermatology Dataset Verified</div>
+    <div class="badge"> CNN-powered Scoring</div>
+  </div>
+
+  <!-- ✅ Popular Conditions Grid -->
+  <div class="conditions">
+  <h3>Common Skin Conditions SkinAI Can Screen For</h3>
+  <div class="grid">
+
+    <div class="condition-card">
+      <b>Melanoma</b> — aggressive skin cancer; early recognition is critical.
+    </div>
+
+    <div class="condition-card">
+      <b>Basal Cell Carcinoma</b> — slow-growing, highly treatable when detected early.
+    </div>
+
+    <div class="condition-card">
+      <b>Squamous Cell Carcinoma</b> — can spread if untreated; prompt evaluation recommended.
+    </div>
+
+    <div class="condition-card">
+      <b>Actinic Keratoses</b> — precancerous lesions caused by UV exposure; monitor progression.
+    </div>
+
+    <div class="condition-card">
+      <b>Benign Keratosis</b> — typically harmless growths; observe changes in size or color.
+    </div>
+
+    <div class="condition-card">
+      <b>Seborrheic Keratosis</b> — common, non-dangerous growths often mistaken for cancer.
+    </div>
+
+    <div class="condition-card">
+      <b>Dermatitis / Eczema</b> — inflammatory, itchy rashes; moisture management helps.
+    </div>
+
+    <div class="condition-card">
+      <b>Psoriasis</b> — chronic autoimmune scaling; may require medical therapy.
+    </div>
+
+    <div class="condition-card">
+      <b>Fungal Infections</b> — ring-shaped rashes; early treatment prevents spread.
+    </div>
+
+    <div class="condition-card">
+      <b>Vascular Lesions</b> — usually benign; monitor for rapid change.
+    </div>
+
+  </div>
+</div>
+
+
+  <footer>
+    © 2025 SkinAI • Early Detection Saves Lives • Privacy Focused
+  </footer>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const preview = document.getElementById("preview");
+
+    imageInput.addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+<!--- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Skin Disease Detector</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: #333;
+      flex-direction: column;
+    }
+
+    /* ✅ Header bar */
+    .navbar {
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(31, 38, 135, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      animation: fadeIn 0.8s;
+    }
+
+    .navbar h2 {
+      font-size: 24px;
+      color: #1b3b6f;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      color: #1b3b6f;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+      text-shadow: 0 0 5px #1b3b6f;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .info {
+      flex: 1 1 50%;
+      padding-right: 20px;
+    }
+
+    .info h1 {
+      color: #1b3b6f;
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .info p {
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .info img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .upload-card {
+      flex: 1 1 40%;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .upload-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .upload-card h2 {
+      margin-bottom: 15px;
+      color: #1b3b6f;
+    }
+
+    .upload-box {
+      border: 2px dashed #1b3b6f;
+      padding: 25px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .upload-box:hover {
+      background: rgba(255,255,255,0.6);
+    }
+
+    .upload-box input[type="file"] {
+      display: none;
+    }
+
+    .preview-img {
+      margin-top: 15px;
+      width: 100%;
+      max-width: 220px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    button {
+      background-color: #1b3b6f;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #16305d;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .info, .upload-card {
+        flex: 1 1 100%;
+        padding: 0;
+      }
+      .info img {
+        margin-top: 20px;
+      }
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <h2>SkinAI</h2>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/skin-health">skin-health</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="info">
+      <h1>AI-Based Skin Disease Detection</h1>
+      <p>
+        Upload an image of your skin lesion to detect possible conditions such as 
+        <b>Melanoma</b>, <b>Basal Cell Carcinoma</b>, <b>Actinic Keratoses</b>, and others.
+        This model is trained on the <b>HAM10000 dermatology dataset</b> using deep learning (CNN).
+      </p>
+      <img src="{{ url_for('static', filename='skin.jpg') }}" alt="Skin Disease Illustration">
+    </div>
+
+    <div class="upload-card">
+      <h2>Upload Your Image</h2>
+      <form id="uploadForm" action="/predict" method="POST" enctype="multipart/form-data">
+        <label class="upload-box" id="uploadBox">
+          <p>📁 Click or Drag an image here</p>
+          <input type="file" name="image" id="imageInput" accept="image/*" required>
+        </label>
+        <img id="preview" class="preview-img" alt="Image Preview">
+        <button type="submit">🔍 Predict Disease</button>
+      </form>
+      <div id="result">{{ prediction_text }}</div>
+    </div>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const preview = document.getElementById("preview");
+    const uploadBox = document.getElementById("uploadBox");
+
+    imageInput.addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Drag and drop effect
+    uploadBox.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      uploadBox.style.background = "rgba(255,255,255,0.6)";
+    });
+    uploadBox.addEventListener("dragleave", () => {
+      uploadBox.style.background = "rgba(255,255,255,0.3)";
+    });
+    uploadBox.addEventListener("drop", (e) => {
+      e.preventDefault();
+      imageInput.files = e.dataTransfer.files;
+      const event = new Event("change");
+      imageInput.dispatchEvent(event);
+    });
+  </script>
+
+</body>
+</html> -->
