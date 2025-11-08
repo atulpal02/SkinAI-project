@@ -3,8 +3,6 @@ from werkzeug.utils import secure_filename
 import numpy as np
 import os
 import requests
-from tensorflow.keras.models import load_model
-from tensorflow.keras.utils import load_img, img_to_array
 
 app = Flask(__name__)
 
@@ -16,7 +14,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 MODEL_URL = "https://huggingface.co/atulpal02/skinai-ham10000-model/resolve/main/ham10000_model_final.h5"
 MODEL_PATH = "model.h5"
 
-# ✅ Download model only if not already cached
+# ✅ Download model only if not cached
 if not os.path.exists(MODEL_PATH):
     print("📥 Downloading model from Hugging Face...")
     r = requests.get(MODEL_URL)
@@ -24,25 +22,26 @@ if not os.path.exists(MODEL_PATH):
         f.write(r.content)
     print("✅ Model downloaded successfully.")
 
-# ✅ Lazy load model to save memory
+# ✅ Lazy load TensorFlow + model to save memory
 model = None
+load_img = None
+img_to_array = None
+
 def get_model():
-    global model
+    global model, load_img, img_to_array
     if model is None:
-        print("⚙️ Loading model into memory...")
+        print("⚙️ Importing TensorFlow and loading model...")
+        from tensorflow.keras.models import load_model
+        from tensorflow.keras.utils import load_img as keras_load_img, img_to_array as keras_img_to_array
+        load_img = keras_load_img
+        img_to_array = keras_img_to_array
         model = load_model(MODEL_PATH)
-        print("✅ Model loaded successfully.")
+        print("✅ Model loaded successfully into memory.")
     return model
 
 # Label mapping
 label_map = {
-    0: "akiec",
-    1: "bcc",
-    2: "bkl",
-    3: "df",
-    4: "mel",
-    5: "nv",
-    6: "vasc"
+    0: "akiec", 1: "bcc", 2: "bkl", 3: "df", 4: "mel", 5: "nv", 6: "vasc"
 }
 
 # Disease info
@@ -71,7 +70,7 @@ def contact():
     return render_template("contact.html")
 
 @app.route('/consult')
-def skin_health():
+def consult():
     return render_template("predict.html")
 
 @app.route('/predict', methods=['POST', 'GET'])
@@ -90,25 +89,27 @@ def predict():
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     f.save(filepath)
 
-    # Load image
+    # Lazy-load model and utilities
+    model_instance = get_model()
+    global load_img, img_to_array
+
+    # Preprocess image
     img = load_img(filepath, target_size=(64, 64))
     x = img_to_array(img) / 255.0
     x = np.expand_dims(x, axis=0)
 
-    # Predict using lazy-loaded model
-    model_instance = get_model()
     preds = model_instance.predict(x)
     label_idx = np.argmax(preds, axis=1)[0]
     predicted_class = label_map[label_idx]
     confidence = float(preds[0][label_idx]) * 100
-
     info = disease_info.get(predicted_class, None)
 
     return render_template("result.html", info=info, image_file=filename, confidence=confidence)
 
+
 if __name__ == '__main__':
-    import os
     port = int(os.environ.get("PORT", 5000))
+    print(f"✅ Server running on port {port}")
     app.run(host='0.0.0.0', port=port)
 
 
