@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Skin Disease Detector</title>
+  <title>SkinAI — AI Skin Disease Detector</title>
   <style>
     * {
       margin: 0;
@@ -22,7 +22,7 @@
       padding: 40px 20px;
     }
 
-    /* ✅ NavBar */
+    /* ✅ Navbar */
     .navbar {
       width: 100%;
       max-width: 1200px;
@@ -53,11 +53,9 @@
       transition: 0.3s;
     }
 
-    .nav-links a:hover {
-      color: #247cff;
-    }
+    .nav-links a:hover { color: #247cff; }
 
-    /* ✅ Hero Banner Section */
+    /* ✅ Hero Section */
     .hero {
       width: 100%;
       max-width: 1200px;
@@ -81,19 +79,39 @@
       font-size: 44px;
       margin-bottom: 18px;
       font-weight: 800;
+      line-height: 1.2;
     }
 
     .hero-text p {
       line-height: 1.7;
       font-size: 18px;
+      margin-bottom: 25px;
     }
 
     .hero-img {
       width: 45%;
       border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
 
-    /* ✅ Main Container */
+    .hero-btn {
+      background: white;
+      color: #0a315a;
+      padding: 12px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .hero-btn:hover {
+      background: #0a315a;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* ✅ Main Section */
     .container {
       width: 100%;
       max-width: 1200px;
@@ -115,7 +133,7 @@
     .info h2 {
       color: #0a315a;
       font-size: 32px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-weight: 700;
     }
 
@@ -125,6 +143,7 @@
       margin-bottom: 20px;
     }
 
+    /* ✅ Upload Box */
     .upload-card {
       flex: 1 1 40%;
       background: #f7faff;
@@ -141,6 +160,18 @@
       margin-bottom: 20px;
       cursor: pointer;
       background: #ffffffa1;
+      transition: 0.3s;
+    }
+
+    .upload-box:hover {
+      background: #eaf3ff;
+      border-color: #1b54b0;
+    }
+
+    input[type="file"] {
+      display: block;
+      margin: 15px auto;
+      color: #333;
     }
 
     .preview-img {
@@ -175,12 +206,13 @@
       color: #122;
     }
 
-    /* ✅ Trusted Badges */
+    /* ✅ Badges */
     .badges {
       margin-top: 30px;
       display: flex;
       gap: 20px;
       justify-content: center;
+      flex-wrap: wrap;
     }
 
     .badge {
@@ -191,7 +223,7 @@
       border: 1px solid #d2e4ff;
     }
 
-    /* ✅ Popular Conditions */
+    /* ✅ Conditions */
     .conditions {
       width: 100%;
       max-width: 1200px;
@@ -235,11 +267,15 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.07);
       text-align: center;
       border: 1px solid #e5eaff;
+      font-weight: 600;
+      color: #0a315a;
     }
 
     @media(max-width: 860px) {
-      .hero-text, .hero-img { width: 100%; }
+      .hero-text, .hero-img { width: 100%; text-align: center; }
+      .hero-text h1 { font-size: 32px; }
       .condition-card { flex: 1 1 100%; }
+      .info, .upload-card { flex: 1 1 100%; }
     }
   </style>
 </head>
@@ -258,106 +294,66 @@
   </div>
 
   <!-- ✅ Hero Banner -->
- <div class="hero">
-  <div class="hero-text">
-    <h1>Proactive Diagnosis, Preventive Care..</h1>
-    <p>
-      
-    </p>
-    <a href="/consult" class="hero-btn">Try Now — It’s Free</a>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Proactive Diagnosis, Preventive Care.</h1>
+      <p>SkinAI uses advanced machine learning to identify potential skin disorders from images in seconds — empowering early detection and better outcomes.</p>
+      <a href="/consult" class="hero-btn">Try Now — It’s Free</a>
+    </div>
+
+    <img src="{{ url_for('static', filename='doctor_banner.png') }}" class="hero-img" alt="Dermatology AI">
   </div>
 
-  <img src="{{ url_for('static', filename='doctor_banner.png') }}"
-       class="hero-img" alt="Dermatology AI">
-</div>
-
-
-  <!-- ✅ Main Container -->
+  <!-- ✅ Main Upload Section -->
   <div class="container">
     <div class="info">
       <h2>Perform Skin Risk Assessment</h2>
-      <p>
-         SkinAI analyzes your skin image in seconds to detect visible abnormalities, estimate risk levels, and help you understand potential dermatological conditions early. Upload a photo to check your skin health now.
-      </p>
-     
+      <p>Upload your skin photo for instant analysis. SkinAI evaluates visible lesions, moles, or irregularities using dermatology-grade CNNs.</p>
     </div>
 
-    <!-- ✅ Upload Box -->
     <div class="upload-card">
       <form id="uploadForm" action="/predict" method="POST" enctype="multipart/form-data">
-        <label class="upload box">
-          <p> Click or Drag an image here</p>
+        <label class="upload-box">
+          <p>📸 Click or Drag an Image Here</p>
           <input type="file" name="image" id="imageInput" accept="image/*" required>
         </label>
 
         <img id="preview" class="preview-img">
-
-        <button type="submit"> Predict Disease</button>
+        <button type="submit">Predict Disease</button>
       </form>
       <div id="result">{{ prediction_text }}</div>
     </div>
   </div>
 
-  <!-- ✅ Security Badges -->
+  <!-- ✅ Trust Badges -->
   <div class="badges">
-    <div class="badge"> HIPAA Privacy Safe</div>
-    <div class="badge"> Dermatology Dataset Verified</div>
-    <div class="badge"> CNN-powered Scoring</div>
+    <div class="badge">HIPAA Privacy Safe</div>
+    <div class="badge">Dermatology Dataset Verified</div>
+    <div class="badge">CNN-Powered Scoring</div>
   </div>
 
-  <!-- ✅ Popular Conditions Grid -->
+  <!-- ✅ Common Conditions -->
   <div class="conditions">
-  <h3>Common Skin Conditions SkinAI Can Screen For</h3>
-  <div class="grid">
-
-    <div class="condition-card">
-      <b>Melanoma</b> — aggressive skin cancer; early recognition is critical.
+    <h3>Common Skin Conditions SkinAI Can Detect</h3>
+    <div class="grid">
+      <div class="condition-card"><b>Melanoma</b> — Aggressive skin cancer; early recognition is critical.</div>
+      <div class="condition-card"><b>Basal Cell Carcinoma</b> — Slow-growing, highly treatable when detected early.</div>
+      <div class="condition-card"><b>Squamous Cell Carcinoma</b> — Can spread if untreated; prompt evaluation recommended.</div>
+      <div class="condition-card"><b>Actinic Keratoses</b> — Precancerous lesions caused by UV exposure; monitor progression.</div>
+      <div class="condition-card"><b>Benign Keratosis</b> — Typically harmless growths; observe changes in size or color.</div>
+      <div class="condition-card"><b>Dermatitis / Eczema</b> — Inflammatory, itchy rashes; moisture management helps.</div>
+      <div class="condition-card"><b>Psoriasis</b> — Chronic autoimmune scaling; may require medical therapy.</div>
+      <div class="condition-card"><b>Fungal Infections</b> — Ring-shaped rashes; early treatment prevents spread.</div>
+      <div class="condition-card"><b>Vascular Lesions</b> — Usually benign; monitor for rapid change.</div>
     </div>
-
-    <div class="condition-card">
-      <b>Basal Cell Carcinoma</b> — slow-growing, highly treatable when detected early.
-    </div>
-
-    <div class="condition-card">
-      <b>Squamous Cell Carcinoma</b> — can spread if untreated; prompt evaluation recommended.
-    </div>
-
-    <div class="condition-card">
-      <b>Actinic Keratoses</b> — precancerous lesions caused by UV exposure; monitor progression.
-    </div>
-
-    <div class="condition-card">
-      <b>Benign Keratosis</b> — typically harmless growths; observe changes in size or color.
-    </div>
-
-    <div class="condition-card">
-      <b>Seborrheic Keratosis</b> — common, non-dangerous growths often mistaken for cancer.
-    </div>
-
-    <div class="condition-card">
-      <b>Dermatitis / Eczema</b> — inflammatory, itchy rashes; moisture management helps.
-    </div>
-
-    <div class="condition-card">
-      <b>Psoriasis</b> — chronic autoimmune scaling; may require medical therapy.
-    </div>
-
-    <div class="condition-card">
-      <b>Fungal Infections</b> — ring-shaped rashes; early treatment prevents spread.
-    </div>
-
-    <div class="condition-card">
-      <b>Vascular Lesions</b> — usually benign; monitor for rapid change.
-    </div>
-
   </div>
-</div>
 
-
+  <!-- ✅ Footer -->
   <footer>
     © 2025 SkinAI • Early Detection Saves Lives • Privacy Focused
   </footer>
 
+  <!-- ✅ JS for image preview -->
   <script>
     const imageInput = document.getElementById("imageInput");
     const preview = document.getElementById("preview");
@@ -376,7 +372,6 @@
   </script>
 </body>
 </html>
-
 
 
 

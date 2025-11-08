@@ -10,26 +10,31 @@ app = Flask(__name__)
 
 # ---------------- CONFIG ---------------- #
 
-# Static folder for uploaded images
 UPLOAD_FOLDER = "static"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ✅ Model location on Hugging Face
 MODEL_URL = "https://huggingface.co/atulpal02/skinai-ham10000-model/resolve/main/ham10000_model_final.h5"
 MODEL_PATH = "model.h5"
 
-# ✅ Automatically download the model if not present
+# ✅ Download model only if not already cached
 if not os.path.exists(MODEL_PATH):
-    print("Downloading model from Hugging Face...")
+    print("📥 Downloading model from Hugging Face...")
     r = requests.get(MODEL_URL)
     with open(MODEL_PATH, "wb") as f:
         f.write(r.content)
     print("✅ Model downloaded successfully.")
 
-# ✅ Load the trained HAM10000 model
-model = load_model(MODEL_PATH)
+# ✅ Lazy load model to save memory
+model = None
+def get_model():
+    global model
+    if model is None:
+        print("⚙️ Loading model into memory...")
+        model = load_model(MODEL_PATH)
+        print("✅ Model loaded successfully.")
+    return model
 
-# Label mapping (same as your training order)
+# Label mapping
 label_map = {
     0: "akiec",
     1: "bcc",
@@ -40,43 +45,15 @@ label_map = {
     6: "vasc"
 }
 
-# Disease details dictionary
+# Disease info
 disease_info = {
-    "akiec": {
-        "name": "Actinic Keratoses",
-        "symptoms": "Rough, scaly patches caused by chronic sun exposure.",
-        "seriousness": "Moderate — can progress to skin cancer if untreated."
-    },
-    "bcc": {
-        "name": "Basal Cell Carcinoma",
-        "symptoms": "Shiny bump or pink growth on sun-exposed skin.",
-        "seriousness": "High — most common skin cancer; rarely spreads but requires treatment."
-    },
-    "bkl": {
-        "name": "Benign Keratosis-like Lesions",
-        "symptoms": "Warty, waxy lesions often confused with melanoma.",
-        "seriousness": "Low — harmless but cosmetically concerning."
-    },
-    "df": {
-        "name": "Dermatofibroma",
-        "symptoms": "Firm red or brown bumps, usually on the legs.",
-        "seriousness": "Low — benign and slow growing."
-    },
-    "mel": {
-        "name": "Melanoma",
-        "symptoms": "New or changing mole, irregular color/border.",
-        "seriousness": "Severe — aggressive skin cancer; early detection essential."
-    },
-    "nv": {
-        "name": "Melanocytic Nevi (Moles)",
-        "symptoms": "Common brown/black moles on the skin.",
-        "seriousness": "Low — monitor for shape or color changes."
-    },
-    "vasc": {
-        "name": "Vascular Lesions",
-        "symptoms": "Bright red or purple blood vessel marks.",
-        "seriousness": "Low to Moderate — usually benign."
-    }
+    "akiec": {"name": "Actinic Keratoses", "symptoms": "Rough, scaly patches caused by chronic sun exposure.", "seriousness": "Moderate — can progress to skin cancer if untreated."},
+    "bcc": {"name": "Basal Cell Carcinoma", "symptoms": "Shiny bump or pink growth on sun-exposed skin.", "seriousness": "High — most common skin cancer; rarely spreads but requires treatment."},
+    "bkl": {"name": "Benign Keratosis-like Lesions", "symptoms": "Warty, waxy lesions often confused with melanoma.", "seriousness": "Low — harmless but cosmetically concerning."},
+    "df": {"name": "Dermatofibroma", "symptoms": "Firm red or brown bumps, usually on the legs.", "seriousness": "Low — benign and slow growing."},
+    "mel": {"name": "Melanoma", "symptoms": "New or changing mole, irregular color/border.", "seriousness": "Severe — aggressive skin cancer; early detection essential."},
+    "nv": {"name": "Melanocytic Nevi (Moles)", "symptoms": "Common brown/black moles on the skin.", "seriousness": "Low — monitor for shape or color changes."},
+    "vasc": {"name": "Vascular Lesions", "symptoms": "Bright red or purple blood vessel marks.", "seriousness": "Low to Moderate — usually benign."}
 }
 
 # ---------------- ROUTES ---------------- #
@@ -99,11 +76,9 @@ def skin_health():
 
 @app.route('/predict', methods=['POST', 'GET'])
 def predict():
-    # For direct GET access
     if request.method == 'GET':
         return render_template("base.html")
 
-    # Validate upload
     if 'image' not in request.files:
         return render_template("base.html", prediction_text="No image uploaded.")
 
@@ -111,28 +86,25 @@ def predict():
     if f.filename == '':
         return render_template("base.html", prediction_text="Please select an image.")
 
-    # Save uploaded image
     filename = secure_filename(f.filename)
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     f.save(filepath)
 
-    # Load & preprocess image
+    # Load image
     img = load_img(filepath, target_size=(64, 64))
     x = img_to_array(img) / 255.0
     x = np.expand_dims(x, axis=0)
 
-    # Predict
-    preds = model.predict(x)
+    # Predict using lazy-loaded model
+    model_instance = get_model()
+    preds = model_instance.predict(x)
     label_idx = np.argmax(preds, axis=1)[0]
     predicted_class = label_map[label_idx]
     confidence = float(preds[0][label_idx]) * 100
 
-    # Fetch disease info
     info = disease_info.get(predicted_class, None)
 
-    # Render result
     return render_template("result.html", info=info, image_file=filename, confidence=confidence)
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

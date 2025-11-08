@@ -2,26 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Disease Prediction Result</title>
+  <title>SkinAI | Prediction Result</title>
   <style>
-    body {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #6dd5fa, #ffffff);
+    }
+
+    body {
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
       color: #333;
+      flex-direction: column;
+      padding: 20px;
     }
 
+    /* Navbar for consistency */
+    .navbar {
+      width: 100%;
+      max-width: 1100px;
+      background: white;
+      padding: 15px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(31,38,135,.12);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    .navbar h2 { color: #1b3b6f; font-size: 24px; font-weight: 700; }
+    .nav-links a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #1b3b6f;
+      font-weight: 600;
+      transition: .3s;
+    }
+    .nav-links a:hover { color: #2d7dff; }
+
+    /* Card layout */
     .card {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       text-align: center;
-      width: 500px;
+      width: 480px;
       animation: fadeIn 1s ease;
     }
 
@@ -31,8 +62,8 @@
     }
 
     img {
-      width: 250px;
-      height: 250px;
+      width: 240px;
+      height: 240px;
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -41,15 +72,17 @@
 
     h2 {
       color: #1b3b6f;
-      font-size: 28px;
+      font-size: 26px;
       margin-bottom: 10px;
     }
 
     p {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
+      margin-bottom: 10px;
     }
 
+    /* Severity color classes */
     .severity {
       margin-top: 15px;
       padding: 10px;
@@ -57,14 +90,36 @@
       font-weight: 600;
       color: white;
     }
-
     .low { background-color: #4caf50; }
     .moderate { background-color: #ff9800; }
     .severe { background-color: #f44336; }
 
-    .back-btn {
-      display: inline-block;
+    /* Confidence bar */
+    .confidence-bar {
+      width: 100%;
+      height: 14px;
+      border-radius: 7px;
+      background: #e0e0e0;
+      margin: 10px 0 20px;
+      overflow: hidden;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1b3b6f, #4ca2ff);
+      width: {{ confidence }}%;
+      transition: width 0.8s ease;
+    }
+
+    /* Buttons */
+    .btn-container {
       margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn {
       padding: 12px 25px;
       border: none;
       border-radius: 8px;
@@ -74,28 +129,44 @@
       font-weight: bold;
       transition: 0.3s;
     }
+    .btn:hover { background-color: #16305d; transform: translateY(-2px); }
 
-    .back-btn:hover {
-      background-color: #16305d;
+    @media(max-width:600px){
+      .card { width: 90%; padding: 25px; }
+      img { width: 200px; height: 200px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>SkinAI</h2>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/consult">Consult</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+
   <div class="card">
-    <img src="{{ url_for('static', filename=image_file) }}" alt="Uploaded Image">
+    <img src="{{ url_for('static', filename=image_file) }}" alt="Uploaded Skin Image">
 
     <p><strong>It is probable that you may have:</strong></p>
-
     <h2>{{ info.name }}</h2>
 
-    <!-- ✅ Show Probability -->
+    <!-- Confidence Percentage -->
     <p><strong>Model Confidence:</strong> {{ "%.2f" | format(confidence) }}%</p>
+    <div class="confidence-bar">
+      <div class="confidence-fill"></div>
+    </div>
 
-    <!-- ✅ Conditional low-probability rule -->
+    <!-- Conditional Advice -->
     {% if confidence < 50 %}
       <p style="color:#ff9800; font-weight:bold;">
-        It may be a common skin infection. Try basic antibiotics or topical medication.
-        If symptoms persist more than a week, consult a dermatologist.
+        The model’s confidence is moderate. This could be a mild condition.
+        Monitor for 3–5 days and consult a dermatologist if symptoms persist.
       </p>
     {% endif %}
 
@@ -108,10 +179,15 @@
       {{ info.seriousness }}
     </div>
 
-    <a href="/" class="back-btn">🔙 Return to Home </a>
+    <div class="btn-container">
+      <a href="/" class="btn">🏠 Home</a>
+      <a href="/consult" class="btn">🔄 Retake Test</a>
+    </div>
   </div>
+
 </body>
 </html>
+
 
 
 <!-- This is a comment <!DOCTYPE html>
