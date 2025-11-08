@@ -75,36 +75,55 @@ def consult():
 
 @app.route('/predict', methods=['POST', 'GET'])
 def predict():
-    if request.method == 'GET':
-        return render_template("base.html")
+    try:
+        if request.method == 'GET':
+            return render_template("base.html")
 
-    if 'image' not in request.files:
-        return render_template("base.html", prediction_text="No image uploaded.")
+        if 'image' not in request.files:
+            return render_template("base.html", prediction_text="No image uploaded.")
 
-    f = request.files['image']
-    if f.filename == '':
-        return render_template("base.html", prediction_text="Please select an image.")
+        f = request.files['image']
+        if f.filename == '':
+            return render_template("base.html", prediction_text="Please select an image.")
 
-    filename = secure_filename(f.filename)
-    filepath = os.path.join(UPLOAD_FOLDER, filename)
-    f.save(filepath)
+        filename = secure_filename(f.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        f.save(filepath)
 
-    # Lazy-load model and utilities
-    model_instance = get_model()
-    global load_img, img_to_array
+        # ✅ Lazy-load model safely
+        model_instance = get_model()
+        global load_img, img_to_array
 
-    # Preprocess image
-    img = load_img(filepath, target_size=(64, 64))
-    x = img_to_array(img) / 255.0
-    x = np.expand_dims(x, axis=0)
+        # ✅ Preprocess image
+        img = load_img(filepath, target_size=(64, 64))
+        x = img_to_array(img) / 255.0
+        x = np.expand_dims(x, axis=0)
 
-    preds = model_instance.predict(x)
-    label_idx = np.argmax(preds, axis=1)[0]
-    predicted_class = label_map[label_idx]
-    confidence = float(preds[0][label_idx]) * 100
-    info = disease_info.get(predicted_class, None)
+        # ✅ Run prediction safely
+        preds = model_instance.predict(x)
+        label_idx = int(np.argmax(preds, axis=1)[0])
+        predicted_class = label_map[label_idx]
+        confidence = round(float(preds[0][label_idx]) * 100, 2)
 
-    return render_template("result.html", info=info, image_file=filename, confidence=confidence)
+        info = disease_info.get(predicted_class, {
+            "name": predicted_class,
+            "symptoms": "No info available",
+            "seriousness": "Unknown"
+        })
+
+        return render_template("result.html",
+                               info=info,
+                               image_file=filename,
+                               confidence=confidence)
+
+    except MemoryError:
+        return "🚫 Out of Memory — please upgrade Render plan or reduce model size.", 500
+
+    except Exception as e:
+        import traceback
+        print("🔥 Error:", str(e))
+        traceback.print_exc()
+        return f"Internal Server Error: {str(e)}", 500
 
 
 if __name__ == '__main__':
