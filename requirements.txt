@@ -1,3 +1,18 @@
+# --only-binary=:all:
+# pip==24.0
+# setuptools==68.0.0
+# wheel==0.41.2
+# Flask==3.0.3
+# Werkzeug==3.0.2
+# tensorflow==2.20.0
+# keras==3.10.0
+# numpy==2.2.5
+# pillow==11.3.0
+# opencv-python-headless==4.10.0.84
+# scikit-learn==1.6.1
+# gunicorn==21.2.0
+
+
 --only-binary=:all:
 pip==24.0
 setuptools==68.0.0
