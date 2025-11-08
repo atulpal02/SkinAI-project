@@ -99,7 +99,7 @@ The CNN effectively identifies most skin lesion classes, achieving particularly 
 To run the project locally:
 
 ### 1️ Clone this repository
-```bash
+
 git clone https://github.com/atulpal02/SkinAI.git
 cd SkinAI
 
@@ -108,6 +108,7 @@ source env/bin/activate   # On macOS/Linux
 env\Scripts\activate
 
 pip install -r requirements.txt
+
 
  #Usage
 
@@ -169,6 +170,7 @@ https://huggingface.co/atulpal02/skinai-ham10000-model
 
 The Flask app automatically fetches this model at startup if not found locally.
 
+
 ⚠️ Limitations
 
 Requires ~1 GB RAM during model loading (Render free tier may crash)
@@ -193,4 +195,10 @@ GitHub: @atulpal02
 Hugging Face: atulpal02
 
 Project: SkinAI — AI-Based Skin Disease Detector
+
+
+
+
+
+
 
