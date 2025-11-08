@@ -110,7 +110,7 @@ env\Scripts\activate
 pip install -r requirements.txt
 
 
- #Usage
+##Usage
 
 Option 1: Use Pretrained Model (via Hugging Face)
 
@@ -171,7 +171,7 @@ https://huggingface.co/atulpal02/skinai-ham10000-model
 The Flask app automatically fetches this model at startup if not found locally.
 
 
-⚠️ Limitations
+## ⚠️ Limitations
 
 Requires ~1 GB RAM during model loading (Render free tier may crash)
 
@@ -186,7 +186,7 @@ Accuracy depends on lighting, image clarity, and skin tone variations
 This project is open-sourced under the MIT License.
 You’re free to use, modify, and distribute with attribution.
 
-Author
+## Author
 
 Atul Pal
 
